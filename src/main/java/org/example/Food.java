@@ -21,7 +21,7 @@ public class Food implements GameObject{
     }
 
     @Override
-    public void sexY(int newY) {
+    public void setY(int newY) {
         foodPosY = newY;
     }
 }

@@ -18,15 +18,38 @@ public class Snake implements   GameObject{
     Snake(int xPos,int yPos) {
         snakeHeadY = yPos;
         snakeHeadX = xPos;
-        int[] headPosition = {snakeHeadX, snakeHeadY};
         snk = new LinkedList<>();
+        int[] headPosition = {snakeHeadX, snakeHeadY};
         snk.add(headPosition);
+        for(int i = 1; i < 20; i++) {
+            int[] bodyPosition = {snakeHeadX, snakeHeadY - i};
+            snk.add(bodyPosition);
+        }
         this.direction = Direction.RIGHT;
     }
 
+    void changeDirection(Direction direction) {
+        this.direction = direction;
+    }
+
     void moveSnake() {
-        snakeHeadX += direction.getDx();
-        snakeHeadY += direction.getDy();
+        // Calculate the new head position based on the direction
+        int newHeadX = snakeHeadX + direction.getDx();
+        int newHeadY = snakeHeadY + direction.getDy();
+        // Create a new head position
+        int[] newHeadPosition = {newHeadX, newHeadY};
+        // Add the new head to the front of the linked list
+        snk.addFirst(newHeadPosition);
+        // Remove the tail segment (last element) from the linked list
+        snk.removeLast();
+        // Update the snake's head position
+        snakeHeadX = newHeadX;
+        snakeHeadY = newHeadY;
+
+    }
+
+    LinkedList<int[]> getSnk() {
+        return snk;
     }
 
     public void setSnakeHealth(int newHealth) {
@@ -54,10 +77,12 @@ public class Snake implements   GameObject{
     @Override
     public void setX(int newX) {
         snakeHeadX = newX;
+        snk.getLast()[0] = snakeHeadX;
     }
 
     @Override
-    public void sexY(int newY) {
+    public void setY(int newY) {
         snakeHeadY = newY;
+        snk.getLast()[1] = snakeHeadY;
     }
 }

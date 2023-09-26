@@ -4,6 +4,6 @@ public interface GameObject {
     int getX();
     int getY();
     void setX(int newX);
-    void sexY(int newY);
+    void setY(int newY);
 
 }
