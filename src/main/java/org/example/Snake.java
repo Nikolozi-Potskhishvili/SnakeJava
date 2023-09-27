@@ -21,14 +21,14 @@ public class Snake implements   GameObject{
         snk = new LinkedList<>();
         int[] headPosition = {snakeHeadX, snakeHeadY};
         snk.add(headPosition);
-        for(int i = 1; i < 20; i++) {
+        for(int i = 1; i < 50; i++) {
             int[] bodyPosition = {snakeHeadX, snakeHeadY - i};
             snk.add(bodyPosition);
         }
         this.direction = Direction.RIGHT;
     }
 
-    void changeDirection(Direction direction) {
+    void setDirection(Direction direction) {
         this.direction = direction;
     }
 
@@ -42,10 +42,28 @@ public class Snake implements   GameObject{
         snk.addFirst(newHeadPosition);
         // Remove the tail segment (last element) from the linked list
         snk.removeLast();
+
         // Update the snake's head position
         snakeHeadX = newHeadX;
         snakeHeadY = newHeadY;
 
+    }
+
+    void updateSnakeNode(int index,int newX,int newY) {
+        int[] bodyPosition = {newX,newY};
+        snk.set(index,bodyPosition);
+        if(index == 0) {
+            setX(newX);
+            setY(newY);
+        }
+    }
+
+    boolean checkCollision() {
+        for(int i = 1; i < snk.size(); i++) {
+            int[] pair = snk.get(i);
+            if(pair[0] == snakeHeadX && pair[1] == snakeHeadY) return true;
+        }
+        return false;
     }
 
     LinkedList<int[]> getSnk() {

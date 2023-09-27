@@ -8,7 +8,7 @@ public class Board {
     private int boardHeight;
     private int boardWidth;
 
-    private int[][] board;
+    private final int[][] board;
 
     Board(int w, int h) {
         boardWidth = w;
@@ -20,25 +20,27 @@ public class Board {
     }
 
     public void updateSnakePos(Snake snake) {
-        LinkedList<int[]> snk = snake.getSnk();
         for(int i = 0; i < boardHeight; i++) {
             Arrays.fill(board[i],0);
         }
-        for (int[] pair : snk) {
+        for (int i = 0; i < snake.getSnk().size(); i++) {
+            int[] pair = snake.getSnk().get(i);
             int x = pair[0];
             int y = pair[1];
             if(x < 0) {
                 x = boardWidth - 1;
-            } else if( x >= boardWidth) {
+                snake.updateSnakeNode(i,x,y);
+            } else if(x >= boardWidth) {
                 x = 0;
+                snake.updateSnakeNode(i,x,y);
             }
             if(y < 0) {
                 y = boardHeight - 1;
+                snake.updateSnakeNode(i,x,y);
             } else if(y >= boardHeight) {
                 y = 0;
+                snake.updateSnakeNode(i,x,y);
             }
-            snake.setX(x);
-            snake.setY(y);
             board[y][x] = 1;
         }
     }
